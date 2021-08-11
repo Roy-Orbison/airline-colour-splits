@@ -18,8 +18,20 @@ function! AirlineColouriseSplits()
 		let l:colours = g:airline#themes#{g:airline_theme}#palette.inactive.airline_a
 		if !empty(l:colours)
 			call airline#highlighter#exec('VertSplit', [l:colours[1], l:colours[1], l:colours[3], l:colours[3]])
-			call airline#highlighter#exec('StatusLine', l:colours)
-			call airline#highlighter#exec('StatusLineNC', l:colours)
+			for l:hi_grp_name in ['StatusLine', 'StatusLineNC']
+				redir => l:hi_grp
+					silent exe ':hi ' .. l:hi_grp_name
+				redir END
+				for l:hi_type in ['gui', 'cterm']
+					exe 'let l:rev_' .. l:hi_type .. ' = l:hi_grp =~ ''\v%(^|\s)' .. l:hi_type .. '\=%([^,[:space:]]+,){-}reverse%($|[,[:space:]])'''
+				endfor
+				call airline#highlighter#exec(l:hi_grp_name, [
+				\	l:colours[l:rev_gui ? 1 : 0]
+				\	, l:colours[l:rev_gui ? 0 : 1]
+				\	, l:colours[l:rev_cterm ? 3 : 2]
+				\	, l:colours[l:rev_cterm ? 2 : 3]
+				\ ])
+			endfor
 		endif
 	endif
 endfunction
