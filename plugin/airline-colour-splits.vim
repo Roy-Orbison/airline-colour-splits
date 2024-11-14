@@ -19,9 +19,7 @@ function! AirlineColouriseSplits()
 		if !empty(l:colours)
 			call airline#highlighter#exec('VertSplit', [l:colours[1], l:colours[1], l:colours[3], l:colours[3]])
 			for l:hi_grp_name in ['StatusLine', 'StatusLineNC']
-				redir => l:hi_grp
-					silent exe ':hi ' .. l:hi_grp_name
-				redir END
+				let l:hi_grp = execute(':hi ' .. l:hi_grp_name)
 				for l:hi_type in ['gui', 'cterm']
 					exe 'let l:rev_' .. l:hi_type .. ' = l:hi_grp =~ ''\v%(^|\s)' .. l:hi_type .. '\=%([^,[:space:]]+,){-}reverse%($|[,[:space:]])'''
 				endfor
