@@ -1,5 +1,5 @@
 " A Vim plugin to make vertical splits automatically follow your Airline theme.
-" © 2016-2021 Roy-Orbison.
+" © 2016-2024 Roy Orbitson.
 "
 " This program is free software: you can redistribute it and/or modify
 " it under the terms of the GNU General Public License as published by
